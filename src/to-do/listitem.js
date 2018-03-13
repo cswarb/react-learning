@@ -13,7 +13,7 @@ export class ToDoListItem extends Component {
   render() {
     return (
       <div>
-        <h1>Item 1</h1>
+        <h1>{this.props.itemdata.title}</h1>
         <ToDoListItemRemove />
       </div>
     );

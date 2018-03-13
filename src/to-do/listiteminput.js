@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ToDoListItemAdd } from './listitemadd';
 
 export class ToDoListItemInput extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export class ToDoListItemInput extends Component {
   render() {
     return (
       <div>
-        input
+        <input type="text" />
+        <ToDoListItemAdd />        
       </div>
     );
   }

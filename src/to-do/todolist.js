@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
 import { ToDoListItem } from './listitem';
 import { ToDoListItemInput } from './listiteminput';
-import { ToDoListItemAdd } from './listitemadd';
 
 export class ToDoList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      "data": [
+        {
+          "id": 1,
+          "title": "Do some work"
+        },
+        {
+          "id": 2,
+          "title": "Eat something"
+        }
+      ]
+    };
   }
 
-  componentDidMount() {
-  }
-  
+  itemAdded() {
+    this.setState(prevState => ({
+      data: [...prevState.data, {"id":4, "title": "boisisisisis"}]
+    }));
+
+    console.log(this);
+    
+  }  
 
   render() {
     return (
       <div>
-        <ToDoListItem />
-        <ToDoListItem />
-        <ToDoListItem />
+        {JSON.stringify(this.state.data)}
+        <ToDoListItem itemdata={{"title": "One"}}/>
+        <ToDoListItem itemdata={{"title": "Two"}}/>
+        <ToDoListItem itemdata={{"title": "Three"}}/>
         <hr />
         <ToDoListItemInput />
-        <ToDoListItemAdd />
+        <button onClick={this.itemAdded.bind(this)}>click</button>
       </div>
     );
   }
