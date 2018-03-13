@@ -4,7 +4,7 @@ export class Nav extends Component {
   render() {
     return (
       <nav>
-        <p>{this.props.theData}</p>
+        <p>Nav</p>
       </nav>
     );
   }
