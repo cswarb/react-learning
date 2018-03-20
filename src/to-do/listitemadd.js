@@ -7,13 +7,10 @@ export class ToDoListItemAdd extends Component {
 
   componentDidMount() {
   }
-  
 
   render() {
     return (
-      <div>
-        add
-      </div>
+      <button type="submit">click</button>
     );
   }
 }

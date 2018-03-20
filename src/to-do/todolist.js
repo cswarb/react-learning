@@ -17,27 +17,39 @@ export class ToDoList extends Component {
         }
       ]
     };
+
+    this.onItemAdded = this.onItemAdded.bind(this);
+    this.onRemoveItem = this.onRemoveItem.bind(this);
   }
 
-  itemAdded() {
+  onItemAdded(newItemValue) {
     this.setState(prevState => ({
-      data: [...prevState.data, {"id":4, "title": "boisisisisis"}]
+      data: [...prevState.data, { 
+        "id": ++this.state.data.length,
+        "title": newItemValue.fieldVal 
+      }]
     }));
+  }
 
-    console.log(this);
-    
-  }  
+  onRemoveItem(itemToRemove) {
+    var newList = this.state.data.filter((item) => {
+      return item.id !== itemToRemove.id;
+    });
+
+    this.setState({
+      data: newList
+    });
+  }
 
   render() {
     return (
       <div>
         {JSON.stringify(this.state.data)}
-        <ToDoListItem itemdata={{"title": "One"}}/>
-        <ToDoListItem itemdata={{"title": "Two"}}/>
-        <ToDoListItem itemdata={{"title": "Three"}}/>
+        {this.state.data.map((item, index) => {
+          return <ToDoListItem key={index} itemdata={item} onRemoveItem={this.onRemoveItem} />
+        })}
         <hr />
-        <ToDoListItemInput />
-        <button onClick={this.itemAdded.bind(this)}>click</button>
+        <ToDoListItemInput defaultFieldVal="Enter a new todo" onItemAdded={this.onItemAdded}/>
       </div>
     );
   }
