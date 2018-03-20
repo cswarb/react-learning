@@ -25,7 +25,7 @@ export class ToDoList extends Component {
   onItemAdded(newItemValue) {
     this.setState(prevState => ({
       data: [...prevState.data, { 
-        "id": ++this.state.data.length,
+        "id": this.state.data.length + 1,
         "title": newItemValue.fieldVal 
       }]
     }));
