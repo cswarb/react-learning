@@ -49,6 +49,8 @@ export class ToDoList extends Component {
           return <ToDoListItem key={index} itemdata={item} onRemoveItem={this.onRemoveItem} />
         })}
         <hr />
+        {this.props.left}
+        {this.props.children}
         <ToDoListItemInput defaultFieldVal="Enter a new todo" onItemAdded={this.onItemAdded}/>
       </div>
     );

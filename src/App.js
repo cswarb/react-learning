@@ -8,6 +8,14 @@ import { Numbers } from "./numbers";
 
 import { ToDoList } from "./to-do/todolist";
 
+const componentBucket = {
+  ToDoList: function(props){
+    return <ToDoList left={props.left}>
+      <p>New:</p> {/* transcluded content  */}
+    </ToDoList>
+  }
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +38,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p> */}
         {/* <span>{this.state.bgcolour}</span> */}
-        <ToDoList />
+        <componentBucket.ToDoList left={<p>Left content</p>}/>
       </div>
     );
   }
