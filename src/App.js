@@ -1,53 +1,79 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import { Nav } from "./nav";
-import { Clock } from "./clock";
-import { ColourSwitch } from "./colourswitch";
-import { Numbers } from "./numbers";
+import { ToDoList } from "./todo/toDo.js";
+import { AddToDoItem } from "./todo/addToDoItem.js";
+import uuid from "uuid";
 
-import { ToDoList } from "./to-do/todolist";
+class App extends React.Component {
+  state = {
+    todos: [
+      {
+        id: uuid.v4(),
+        title: "List item 1",
+        completed: false
+      },
+      {
+        id: uuid.v4(),
+        title: "List item 2",
+        completed: false
+      },
+      {
+        id: uuid.v4(),
+        title: "List item 3",
+        completed: true
+      }
+    ]
+  };
 
-const componentBucket = {
-  ToDoList: function(props){
-    return <ToDoList left={props.left}>
-      <p>New:</p> {/* transcluded content  */}
-    </ToDoList>
-  }
-};
-
-class App extends Component {
   constructor(props) {
     super(props);
-    this.colourHasUpdated = this.colourHasUpdated.bind(this);
-    this.state = {
-      "bgcolour": "red"
-    };
+    this.markComplete = this.markComplete.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
+    this.addTodo = this.addTodo.bind(this);
   }
+
+  addTodo(todo) {
+    todo.id = uuid.v4();
+
+    this.setState({
+      todos: [...this.state.todos, todo]
+    });
+  }
+
+  deleteTodo(todoId) {
+    this.setState({
+      todos: this.state.todos.filter((todo) => {
+        return todo.id != todoId;
+      })
+    })
+  }
+
+  markComplete(todoId) {
+    this.setState({
+      "todos": this.state.todos.map((todo) => {
+        if(todo.id === todoId) {
+          todo.completed = !todo.completed;
+        };
+        return todo;
+      })
+    });    
+  }
+
   render() {
     return (
-      <div className="App">
-        {/* <Nav></Nav> */}
-        {/* <Clock></Clock> */}
-        <header className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
-          {/* <h1 className="App-title">Welcome to</h1> */}
-          {/* <ColourSwitch color={this.state.bgcolour} colourupdate={this.colourHasUpdated}/> */}
-        </header>
-        {/* <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p> */}
-        {/* <span>{this.state.bgcolour}</span> */}
-        <componentBucket.ToDoList left={<p>Left content</p>}/>
+      <div>
+        <Nav />
+
+        <div className="container">
+          <AddToDoItem adtodo={this.addTodo} />
+
+          <ToDoList todos={this.state.todos} markcomplete={this.markComplete} deletetodo={this.deleteTodo} />
+        </div>
       </div>
     );
   }
 
-  colourHasUpdated(newColour) {
-    this.setState({
-      "bgcolour": newColour
-    });
-  }
 }
 
 export default App;
