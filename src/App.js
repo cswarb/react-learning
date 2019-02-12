@@ -1,76 +1,58 @@
 import React from 'react';
 import './App.css';
 import { Nav } from "./nav";
-import { ToDoList } from "./todo/toDo.js";
-import { AddToDoItem } from "./todo/addToDoItem.js";
-import uuid from "uuid";
 
-class App extends React.Component {
-  state = {
-    todos: [
-      {
-        id: uuid.v4(),
-        title: "List item 1",
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: "List item 2",
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: "List item 3",
-        completed: true
-      }
-    ]
-  };
+import { About } from "./scenes/About.js";
+import { Details } from "./scenes/Details.js";
+import { Dashboard } from "./scenes/Dashboard.js";
+
+import { Router, BrowserRouter, Route } from "react-router-dom";
+import { AppRoutes } from "./App.routes.js";
+
+
+export class App extends React.Component {
+  
 
   constructor(props) {
     super(props);
-    this.markComplete = this.markComplete.bind(this);
-    this.deleteTodo = this.deleteTodo.bind(this);
-    this.addTodo = this.addTodo.bind(this);
   }
 
-  addTodo(todo) {
-    todo.id = uuid.v4();
-
-    this.setState({
-      todos: [...this.state.todos, todo]
-    });
+  enterDetails(state) {
+    console.log("router: ", state);
+    
   }
-
-  deleteTodo(todoId) {
-    this.setState({
-      todos: this.state.todos.filter((todo) => {
-        return todo.id != todoId;
-      })
-    })
-  }
-
-  markComplete(todoId) {
-    this.setState({
-      "todos": this.state.todos.map((todo) => {
-        if(todo.id === todoId) {
-          todo.completed = !todo.completed;
-        };
-        return todo;
-      })
-    });    
-  }
-
+  
   render() {
     return (
-      <div>
-        <Nav />
+      <BrowserRouter>
+        <div>
+          <Nav />
 
-        <div className="container">
-          <AddToDoItem adtodo={this.addTodo} />
+          <div className="container">
 
-          <ToDoList todos={this.state.todos} markcomplete={this.markComplete} deletetodo={this.deleteTodo} />
+            {/* <Router history={} routes={AppRoutes} /> */}
+
+            <Route exact path="/" render={props => (
+              <Dashboard />
+            )}></Route>            
+            
+            <Route path="/about" render={props => (
+              <React.Fragment>
+                <About />
+              </React.Fragment>
+            )}></Route>
+            
+            <Route path="/details/:id" onEnter={this.enterDetails.bind(this)} render={props => (
+              <React.Fragment>
+                {/* Pass through the route info into props by spreading */}
+                <Details {...props} />
+              </React.Fragment>
+            )}></Route>
+            
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
+      
     );
   }
 
