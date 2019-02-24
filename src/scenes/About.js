@@ -4,6 +4,7 @@ export class About extends React.Component {
 
     constructor(props) {
         super(props);
+        // throw new Error('I crashed!');
     }
 
     render() {

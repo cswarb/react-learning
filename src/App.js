@@ -8,7 +8,9 @@ import { Dashboard } from "./scenes/Dashboard.js";
 
 import { Router, BrowserRouter, Route } from "react-router-dom";
 import { AppRoutes } from "./App.routes.js";
+import Axios from 'axios';
 
+import { ErrorBoundary } from "./ErrorBoundary.js";
 
 export class App extends React.Component {
   
@@ -38,11 +40,13 @@ export class App extends React.Component {
             
             <Route path="/about" render={props => (
               <React.Fragment>
-                <About />
+                <ErrorBoundary>
+                  <About />
+                </ErrorBoundary>
               </React.Fragment>
             )}></Route>
             
-            <Route path="/details/:id" onEnter={this.enterDetails.bind(this)} render={props => (
+            <Route path="/details/:id" render={props => (
               <React.Fragment>
                 {/* Pass through the route info into props by spreading */}
                 <Details {...props} />
